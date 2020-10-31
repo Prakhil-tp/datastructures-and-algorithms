@@ -132,6 +132,37 @@ class BinarySearchTree {
       }
     }
   }
+
+  breadthFirstSearch() {
+    let currentNode = this.root;
+    const list = [];
+    const queue = [];
+    queue.push(currentNode);
+
+    while (queue.length) {
+      currentNode = queue.shift();
+      list.push(currentNode.value);
+      if (currentNode.left) queue.push(currentNode.left);
+      if (currentNode.right) queue.push(currentNode.right);
+    }
+
+    return list;
+  }
+
+  // recursive approach
+  breadthFirstSearchR() {
+    return bfsTraverse([this.root], []);
+  }
+  DFSInOrder() {
+    return dfsInOrderTraverse(this.root, []);
+  }
+
+  DFSPreOrder() {
+    return dfsPreOrderTraverse(this.root, []);
+  }
+  DFSPostOrder() {
+    return dfsPostOrderTraverse(this.root, []);
+  }
 }
 
 // function to list the tree
@@ -142,12 +173,63 @@ function traverse(node) {
   return tree;
 }
 
+function bfsTraverse(queue, list) {
+  if (!queue.length) return list;
+  let currentNode = queue.shift();
+  list.push(currentNode.value);
+  if (currentNode.left) queue.push(currentNode.left);
+  if (currentNode.right) queue.push(currentNode.right);
+  return bfsTraverse(queue, list);
+}
+
+function dfsInOrderTraverse(node, list) {
+  if (node.left) {
+    dfsInOrderTraverse(node.left, list);
+  }
+  list.push(node.value);
+  if (node.right) {
+    dfsInOrderTraverse(node.right, list);
+  }
+  return list;
+}
+
+function dfsPreOrderTraverse(node, list) {
+  list.push(node.value);
+  if (node.left) {
+    dfsPreOrderTraverse(node.left, list);
+  }
+  if (node.right) {
+    dfsPreOrderTraverse(node.right, list);
+  }
+  return list;
+}
+
+function dfsPostOrderTraverse(node, list) {
+  if (node.left) {
+    dfsPostOrderTraverse(node.left, list);
+  }
+  if (node.right) {
+    dfsPostOrderTraverse(node.right, list);
+  }
+  list.push(node.value);
+  return list;
+}
+
 const tree = new BinarySearchTree();
-tree.insert(51);
-tree.insert(55);
-tree.insert(54);
-tree.insert(40);
-const a = tree.remove(54);
-console.log(a);
-const res = JSON.stringify(traverse(tree.root));
+tree.insert(9);
+tree.insert(4);
+tree.insert(20);
+tree.insert(1);
+tree.insert(6);
+tree.insert(15);
+tree.insert(170);
+//const a = tree.remove(54);
+//console.log(a);
+//const res = JSON.stringify(traverse(tree.root));
+//console.log(res);
+//const res = tree.breadthFirstSearch();
+//const res = tree.breadthFirstSearchR();
+//const res = tree.DFSInOrder();
+//const res = tree.DFSPreOrder();
+const res = tree.DFSPostOrder();
 console.log(res);
