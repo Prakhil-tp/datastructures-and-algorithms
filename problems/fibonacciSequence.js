@@ -22,7 +22,25 @@ function fibonacciRecursive(n) {
   return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
 }
 
-const iterative = fibonacciIterative(6); // O(n)
-const recursive = fibonacciRecursive(6); // O(2^N) exponential time
+const iterative = fibonacciIterative(6); // O(n) linear time
+const recursive = fibonacciRecursive(8); // O(2^N) exponential time
 
 console.log({ iterative, recursive });
+
+// using dynamic programming to  optimize the recursive fn
+const fibMemoized = () => {
+  let cache = {};
+
+  const fib = (n) => {
+    if (n < 2) return n;
+    if (n in cache) return cache[n];
+    cache[n] = fib(n - 1) + fib(n - 2);
+    return cache[n];
+  };
+
+  return fib;
+};
+
+const memoized = fibMemoized();
+const value = memoized(10); // O(n) linear time
+console.log({ memoized: value });
